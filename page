@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Un Análisis Profundo del Burnout Laboral (con Asistente IA)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0F8FF;
+            color: #001F3F;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 450px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .kpi-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+            text-align: center;
+            border-left: 5px solid #007BFF;
+        }
+        .flow-step {
+            border: 2px solid #4682B4;
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            flex-grow: 1;
+        }
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #007BFF;
+            padding: 0 1rem;
+        }
+        /* Estilos para el modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #007BFF;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black text-[#001F3F] mb-4">Burnout: La Epidemia Silenciosa</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-[#4682B4]">El burnout no es un fracaso personal, sino un fenómeno ocupacional reconocido por la OMS. Esta infografía explora sus causas, impacto y soluciones basadas en la ciencia para construir entornos laborales más saludables.</p>
+        </header>
+
+        <section id="definition" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-center mb-6">De Tragedia Personal a Problema Organizacional</h2>
+                <p class="text-center text-[#4682B4] mb-8 max-w-4xl mx-auto">La comprensión del burnout ha evolucionado. Inicialmente visto como un problema del individuo "excesivamente dedicado", ahora se define por el desajuste crónico entre la persona y su entorno laboral, un cambio de paradigma consolidado por la Organización Mundial de la Salud (OMS).</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="border-t-4 border-[#87CEEB] p-4">
+                        <h3 class="font-bold text-lg mb-2">Modelo de Freudenberger (1970s)</h3>
+                        <p class="text-sm">Proceso de desgaste en "grandes triunfadores" por estrés y altos ideales. El foco está en la <span class="font-bold">personalidad</span>.</p>
+                    </div>
+                    <div class="border-t-4 border-[#00BFFF] p-4">
+                        <h3 class="font-bold text-lg mb-2">Modelo de Maslach (1980s)</h3>
+                        <p class="text-sm">Síndrome multidimensional como respuesta a estresores <span class="font-bold">interpersonales</span> crónicos en el trabajo.</p>
+                    </div>
+                    <div class="border-t-4 border-[#007BFF] p-4">
+                        <h3 class="font-bold text-lg mb-2">Definición OMS/CIE-11 (2022)</h3>
+                        <p class="text-sm">Fenómeno <span class="font-bold">ocupacional</span> por estrés laboral crónico no gestionado. No es una enfermedad, es un riesgo laboral.</p>
+                    </div>
+                </div>
+                <div class="mt-8 bg-[#F0F8FF] rounded-lg p-6">
+                     <h3 class="text-2xl font-bold text-center mb-4">Las 3 Dimensiones del Burnout</h3>
+                     <div class="flex flex-col md:flex-row justify-around items-center text-center">
+                        <div class="m-4">
+                            <span class="text-5xl"> agotamiento emocional</span>
+                            <p class="mt-2 text-[#4682B4]">Sentirse sin energía y emocionalmente sobrepasado.</p>
+                        </div>
+                        <div class="m-4">
+                            <span class="text-5xl"> cinismo o despersonalización</span>
+                             <p class="mt-2 text-[#4682B4]">Distanciamiento mental y actitud negativa hacia el trabajo.</p>
+                        </div>
+                        <div class="m-4">
+                             <span class="text-5xl"> ineficacia profesional</span>
+                              <p class="mt-2 text-[#4682B4]">Sentimiento de no ser competente ni productivo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="causes" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2">Las 6 Raíces del Problema</h2>
+            <p class="text-center text-[#4682B4] mb-8 max-w-3xl mx-auto">La investigación de Maslach y Leiter identifica seis áreas clave de desajuste entre el empleado y la organización como las principales causas del burnout. Cuando estas áreas son disfuncionales, el riesgo se dispara.</p>
+            <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                <div class="chart-container">
+                    <canvas id="causesChart"></canvas>
+                </div>
+                 <p class="text-center text-sm text-[#4682B4] mt-4">Este gráfico ilustra la importancia relativa de los seis principales factores de riesgo organizacionales que contribuyen al desarrollo del burnout. La sobrecarga de trabajo es consistentemente identificada como uno de los predictores más potentes.</p>
+            </div>
+        </section>
+
+        <section id="prevalence" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2">Prevalencia: Sectores en Alerta Roja</h2>
+            <p class="text-center text-[#4682B4] mb-8 max-w-3xl mx-auto">Aunque ningún sector es inmune, ciertas profesiones muestran tasas de burnout alarmantemente altas debido a la naturaleza de su trabajo y a las presiones sistémicas que enfrentan.</p>
+             <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                <div class="chart-container">
+                    <canvas id="prevalenceChart"></canvas>
+                </div>
+                 <p class="text-center text-sm text-[#4682B4] mt-4">Comparación de la prevalencia de burnout de alto grado o alto riesgo en diferentes sectores, según los datos de varios estudios y encuestas. Las cifras, especialmente en educación y salud, reflejan el impacto agudo de crisis como la pandemia.</p>
+            </div>
+        </section>
+
+        <section id="impact" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2">El Impacto en Cascada</h2>
+            <p class="text-center text-[#4682B4] mb-8 max-w-3xl mx-auto">Las consecuencias del burnout van mucho más allá del cansancio. Crean un efecto dominó que devasta la salud individual, la productividad organizacional y el bienestar social y familiar.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-center">Impacto en la Salud Individual</h3>
+                    <div class="space-y-4">
+                        <div class="kpi-card">
+                            <p class="text-5xl font-black text-[#007BFF]">180%</p>
+                            <p class="font-bold mt-2">Mayor riesgo de desarrollar trastornos depresivos.</p>
+                        </div>
+                        <div class="kpi-card">
+                            <p class="text-5xl font-black text-[#007BFF]">2-3x</p>
+                            <p class="font-bold mt-2">Más probabilidad de tener ideación suicida.</p>
+                        </div>
+                         <div class="kpi-card">
+                            <p class="text-5xl font-black text-[#007BFF]">84%</p>
+                            <p class="font-bold mt-2">Mayor riesgo de desarrollar Diabetes Tipo 2.</p>
+                        </div>
+                         <div class="kpi-card">
+                            <p class="text-5xl font-black text-[#007BFF]">40%</p>
+                            <p class="font-bold mt-2">Mayor riesgo de hipertensión y problemas cardiovasculares.</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-center">Impacto en la Organización</h3>
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="chart-container h-80">
+                            <canvas id="organizationImpactChart"></canvas>
+                        </div>
+                        <p class="text-center text-sm text-[#4682B4] mt-4">El burnout se traduce en costos directos y medibles para la organización, afectando la estabilidad, la productividad y la moral del equipo. El ausentismo y la rotación son los indicadores más visibles.</p>
+                    </div>
+                     <div class="mt-8 bg-white rounded-lg shadow-md p-6">
+                         <h3 class="text-xl font-bold mb-2 text-center">El Costo Económico Oculto</h3>
+                         <p class="text-center text-[#4682B4]">El gasto sanitario anual atribuible al burnout laboral en EE.UU. se estima entre</p>
+                         <p class="text-4xl font-black text-[#007BFF] text-center my-2">$125 y $190 mil millones.</p>
+                         <p class="text-center text-sm text-[#4682B4]">Además, el costo de reemplazar a un solo empleado puede llegar hasta el 200% de su salario anual.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="paradox" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2">La Paradoja de la Intervención</h2>
+            <p class="text-center text-[#4682B4] mb-8 max-w-3xl mx-auto">A pesar de que la ciencia señala a las causas organizacionales, muchas empresas se enfocan en soluciones individuales. Esta desconexión crea un ciclo ineficaz que culpa a la víctima en lugar de arreglar el sistema.</p>
+            <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="p-4 rounded-lg bg-red-50 border border-red-200">
+                        <h3 class="text-xl font-bold text-red-800 text-center mb-4">El Enfoque Ineficaz (y Común)</h3>
+                        <div class="flex flex-col items-center space-y-4">
+                            <div class="flow-step border-red-500">
+                                <strong>1. Detección del Problema</strong>
+                                <p class="text-sm">Se observan altos niveles de burnout.</p>
+                            </div>
+                             <div class="flow-arrow text-red-500">↓</div>
+                            <div class="flow-step border-red-500">
+                                <strong>2. Diagnóstico Erróneo</strong>
+                                <p class="text-sm">Se atribuye a la "falta de resiliencia" individual.</p>
+                            </div>
+                            <div class="flow-arrow text-red-500">↓</div>
+                            <div class="flow-step border-red-500">
+                                <strong>3. Intervención Individual</strong>
+                                <p class="text-sm">Se ofrecen talleres de mindfulness, yoga, etc.</p>
+                            </div>
+                            <div class="flow-arrow text-red-500">↓</div>
+                            <div class="flow-step border-red-500 bg-red-100">
+                                <strong>4. Resultado: El Burnout Persiste</strong>
+                                <p class="text-sm">Las causas raíz (organizacionales) no han cambiado.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-lg bg-green-50 border border-green-200">
+                        <h3 class="text-xl font-bold text-green-800 text-center mb-4">El Enfoque Efectivo (Basado en Evidencia)</h3>
+                        <div class="flex flex-col items-center space-y-4">
+                            <div class="flow-step border-green-500">
+                                <strong>1. Detección del Problema</strong>
+                                <p class="text-sm">Se observan altos niveles de burnout.</p>
+                            </div>
+                            <div class="flow-arrow text-green-500">↓</div>
+                            <div class="flow-step border-green-500">
+                                <strong>2. Diagnóstico Sistémico</strong>
+                                <p class="text-sm">Se analizan las 6 áreas de la vida laboral (AWS).</p>
+                            </div>
+                            <div class="flow-arrow text-green-500">↓</div>
+                            <div class="flow-step border-green-500">
+                                <strong>3. Intervención Organizacional</strong>
+                                <p class="text-sm">Se rediseña el trabajo, se mejora el liderazgo, etc.</p>
+                            </div>
+                             <div class="flow-arrow text-green-500">↓</div>
+                            <div class="flow-step border-green-500 bg-green-100">
+                                <strong>4. Resultado: Bienestar Sostenible</strong>
+                                <p class="text-sm">Se crea un entorno laboral psicológicamente seguro.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nueva Sección con Gemini API -->
+        <section id="gemini-action-plan" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2">Crea tu Plan de Acción Personalizado</h2>
+            <p class="text-center text-[#4682B4] mb-8 max-w-3xl mx-auto">Selecciona los factores que más resuenan contigo para generar un plan de acción inicial, impulsado por IA, que te ayude a dar los primeros pasos.</p>
+            <div class="bg-white rounded-lg shadow-md p-6 md:p-8 max-w-4xl mx-auto">
+                <form id="burnoutFactorsForm">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" name="burnout_factor" value="Sobrecarga de Trabajo" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <span class="ml-3 text-gray-700">Sobrecarga de Trabajo</span>
+                        </label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" name="burnout_factor" value="Falta de Control" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <span class="ml-3 text-gray-700">Falta de Control</span>
+                        </label>
+                         <label class="flex items-center p-3 border rounded-lg hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" name="burnout_factor" value="Recompensa Insuficiente" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <span class="ml-3 text-gray-700">Recompensa Insuficiente</span>
+                        </label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" name="burnout_factor" value="Comunidad Deteriorada" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <span class="ml-3 text-gray-700">Comunidad Deteriorada</span>
+                        </label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" name="burnout_factor" value="Ausencia de Equidad" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <span class="ml-3 text-gray-700">Ausencia de Equidad</span>
+                        </label>
+                        <label class="flex items-center p-3 border rounded-lg hover:bg-gray-100 cursor-pointer">
+                            <input type="checkbox" name="burnout_factor" value="Conflicto de Valores" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <span class="ml-3 text-gray-700">Conflicto de Valores</span>
+                        </label>
+                    </div>
+                    <div class="text-center mt-8">
+                        <button type="submit" id="generatePlanBtn" class="bg-gradient-to-r from-[#007BFF] to-[#00BFFF] text-white font-bold py-3 px-8 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                            ✨ Generar Mi Plan de Acción
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <footer class="text-center mt-16 pt-8 border-t border-[#87CEEB]">
+             <h3 class="text-2xl font-bold">Es hora de actuar.</h3>
+             <p class="text-lg text-[#4682B4] max-w-2xl mx-auto mt-2">Combatir el burnout es una responsabilidad del liderazgo y una inversión estratégica en el activo más valioso de cualquier organización: su gente.</p>
+             <p class="text-xs text-gray-400 mt-8">Infografía generada a partir del documento "El Síndrome de Burnout: Un Análisis Científico Integral". Las visualizaciones de datos se basan en la evidencia presentada en el texto.</p>
+        </footer>
+
+    </main>
+
+    <!-- Modal para resultados de Gemini -->
+    <div id="geminiModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 id="modalTitle" class="text-2xl font-bold mb-4 text-[#001F3F]"></h3>
+            <div id="modalBody"></div>
+            <div class="text-right mt-6">
+                <button id="closeModalBtn" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-400 transition-all">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const brilliantBlues = {
+            navy: '#001F3F',
+            brightBlue: '#007BFF',
+            deepSkyBlue: '#00BFFF',
+            skyBlue: '#87CEEB',
+            steelBlue: '#4682B4',
+            aliceBlue: '#F0F8FF'
+        };
+
+        function wrapLabel(str, maxWidth) {
+            if (str.length <= maxWidth) {
+                return str;
+            }
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length > maxWidth) {
+                    lines.push(currentLine.trim());
+                    currentLine = '';
+                }
+                currentLine += word + ' ';
+            }
+            lines.push(currentLine.trim());
+            return lines;
+        }
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+        
+        const sharedChartOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: brilliantBlues.navy,
+                        font: { size: 12 }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    },
+                    backgroundColor: brilliantBlues.navy,
+                    titleFont: { size: 14, weight: 'bold' },
+                    bodyFont: { size: 12 },
+                    padding: 12,
+                    cornerRadius: 6
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { color: brilliantBlues.navy },
+                    grid: { color: '#e0e0e0' }
+                },
+                x: {
+                    ticks: { color: brilliantBlues.navy },
+                    grid: { display: false }
+                }
+            }
+        };
+
+        const causesData = {
+            labels: [
+                wrapLabel('Sobrecarga de Trabajo', 16),
+                wrapLabel('Recompensa Insuficiente', 16),
+                wrapLabel('Comunidad Deteriorada', 16),
+                wrapLabel('Ausencia de Equidad', 16),
+                wrapLabel('Falta de Control', 16),
+                wrapLabel('Conflicto de Valores', 16)
+            ],
+            datasets: [{
+                label: 'Impacto relativo en el riesgo de Burnout',
+                data: [90, 75, 70, 65, 60, 50],
+                backgroundColor: [
+                    brilliantBlues.brightBlue, brilliantBlues.deepSkyBlue, brilliantBlues.skyBlue,
+                    brilliantBlues.steelBlue, '#A9D5E5', '#C4E4F4'
+                ],
+                borderColor: brilliantBlues.navy,
+                borderWidth: 1
+            }]
+        };
+
+        new Chart(document.getElementById('causesChart'), {
+            type: 'bar',
+            data: causesData,
+            options: { ...sharedChartOptions, indexAxis: 'y' }
+        });
+
+        const prevalenceData = {
+            labels: [
+                wrapLabel('Docentes Universitarios (Pandemia)', 16),
+                wrapLabel('Trabajadores de Tecnología', 16),
+                wrapLabel('Personal de Salud (Pandemia)', 16),
+                wrapLabel('Profesionales TI (Global)', 16)
+            ],
+            datasets: [{
+                label: 'Prevalencia de Burnout Alto/Riesgo Alto (%)',
+                data: [62, 60, 52, 42],
+                backgroundColor: [brilliantBlues.brightBlue, brilliantBlues.deepSkyBlue, brilliantBlues.skyBlue, brilliantBlues.steelBlue],
+                borderColor: brilliantBlues.navy,
+                borderWidth: 1
+            }]
+        };
+
+        new Chart(document.getElementById('prevalenceChart'), {
+            type: 'bar',
+            data: prevalenceData,
+            options: {
+                ...sharedChartOptions,
+                scales: {
+                    y: { ...sharedChartOptions.scales.y, max: 100 },
+                    x: { ...sharedChartOptions.scales.x }
+                }
+            }
+        });
+        
+        const organizationImpactData = {
+            labels: ['Mayor Ausentismo', 'Reducción de Productividad', 'Alta Rotación de Personal'],
+            datasets: [{
+                label: 'Impacto Organizacional',
+                data: [57, 30, 13],
+                backgroundColor: [brilliantBlues.brightBlue, brilliantBlues.skyBlue, brilliantBlues.steelBlue],
+                hoverOffset: 4
+            }]
+        };
+        
+        new Chart(document.getElementById('organizationImpactChart'), {
+            type: 'doughnut',
+            data: organizationImpactData,
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                         labels: {
+                            color: brilliantBlues.navy,
+                            font: { size: 12 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback,
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += context.parsed + '% (Dato representativo)';
+                                }
+                                return label;
+                            }
+                        },
+                         backgroundColor: brilliantBlues.navy,
+                        titleFont: { size: 14, weight: 'bold' },
+                        bodyFont: { size: 12 },
+                        padding: 12,
+                        cornerRadius: 6
+                    }
+                }
+            }
+        });
+
+        // Gemini API integration
+        const geminiModal = document.getElementById('geminiModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const burnoutForm = document.getElementById('burnoutFactorsForm');
+
+        function showModal(title, content) {
+            modalTitle.textContent = title;
+            modalBody.innerHTML = content;
+            geminiModal.classList.remove('hidden');
+        }
+
+        function hideModal() {
+            geminiModal.classList.add('hidden');
+        }
+
+        closeModalBtn.addEventListener('click', hideModal);
+        geminiModal.addEventListener('click', (e) => {
+            if (e.target === geminiModal) {
+                hideModal();
+            }
+        });
+
+        function simpleMarkdownToHtml(text) {
+            let html = text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') 
+                .replace(/\*(.*?)\*/g, '<em>$1</em>'); 
+
+            html = html.split('\n').map(line => {
+                if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
+                    return `<ul><li class="ml-4 list-disc">${line.trim().substring(2)}</li></ul>`;
+                }
+                return line ? `<p class="mb-2">${line}</p>` : '<br>';
+            }).join('').replace(/<\/ul><ul>/g, ''); 
+
+            return html;
+        }
+
+        burnoutForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const selectedFactors = Array.from(document.querySelectorAll('input[name="burnout_factor"]:checked')).map(cb => cb.value);
+
+            if (selectedFactors.length === 0) {
+                showModal('Error', '<p>Por favor, selecciona al menos un factor para generar tu plan.</p>');
+                return;
+            }
+
+            showModal('Generando tu plan...', '<div class="flex justify-center"><div class="loader"></div></div>');
+
+            const prompt = `Actúa como un psicólogo organizacional experto y empático. Un usuario está experimentando agotamiento laboral relacionado con los siguientes factores: ${selectedFactors.join(', ')}. 
+
+            Genera un plan de acción práctico y compasivo para esta persona. La respuesta debe estar en español y estructurada en dos partes claras:
+
+            1.  **Estrategias Individuales:** Ofrece 2-3 consejos prácticos que la persona pueda implementar de inmediato para mitigar el estrés relacionado con los factores seleccionados. Utiliza un tono de apoyo.
+
+            2.  **Comunicación con la Organización:** Proporciona 2-3 puntos clave o frases constructivas que la persona pueda usar para iniciar una conversación profesional con su líder o departamento de RRHH sobre estos problemas. El objetivo es buscar soluciones colaborativas, no culpar.
+
+            Formatea la respuesta usando markdown simple (negritas con ** y listas con -).`;
+            
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const generatedText = result.candidates[0].content.parts[0].text;
+                    const htmlContent = simpleMarkdownToHtml(generatedText);
+                    showModal('Tu Plan de Acción Personalizado', htmlContent);
+                } else {
+                    throw new Error('No se recibió contenido válido de la API.');
+                }
+
+            } catch (error) {
+                console.error("Error fetching Gemini API:", error);
+                showModal('Error', '<p>Lo sentimos, no se pudo generar el plan en este momento. Por favor, inténtalo de nuevo más tarde.</p>');
+            }
+        });
+    </script>
+</body>
+</html>
